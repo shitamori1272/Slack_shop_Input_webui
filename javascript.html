@@ -1,0 +1,130 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/7bcbed1321.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js"></script>
+<script>
+/**
+ コード.jsのgetSelectListFromSS()を読んで、スプレッドシートのデータをもとに、セレクトボックスを構築する
+*/
+function getSelectList() {
+    try {
+        google.script.run
+            .withSuccessHandler(function(result) {
+
+                console.log("result", result);
+
+                var select = document.getElementById('select_id');
+                var option = document.createElement('option');
+                option.setAttribute('value', '');
+                option.setAttribute('selected', true);
+                option.innerHTML = '未選択';
+                select.appendChild(option);
+
+                for (var i = 0; i < result.data.length; i++) {
+                    option = document.createElement('option');
+                    option.setAttribute('value', i + 1);
+                    option.innerHTML = result.data[i];
+                    select.appendChild(option);
+                }
+
+
+            })
+            .withFailureHandler(function(result) {
+                toastr.error('リストの取得に失敗しました。', result);
+            })
+            .getSelectListFromMasterSS();
+
+    } catch (e) {
+        toastr.error(e);
+    }
+}
+
+/**
+ コード.jsのregisterSSByFormData()を呼んで、フォームの内容をスプレッドシートに登録する
+*/
+function sendData() {
+
+    try {
+
+        processing(true);
+
+        var elemntIFrame = window.parent.document.getElementById('userHtmlFrame');
+        elemntIFrame.setAttribute('scrolling', 'no');
+        elemntIFrame.setAttribute('frameborder', '0');
+
+        var data = [];
+        data[0] = document.getElementById('input_id').value;
+        data[1] = document.getElementById('select_id').options[document.getElementById('select_id').selectedIndex].text;
+
+        console.log("data", data);
+
+
+        google.script.run
+            .withSuccessHandler(function(result) {
+                processing(false);
+                if (result.data) {
+                    toastr.info('送信完了');
+                } else {
+                    toastr.error('送信失敗しました');
+                }
+            })
+            .withFailureHandler(function(result) {
+                processing(false);
+                toastr.error('データ送信に失敗しました。', result);
+            })
+            .registerSSByFormData(data);
+
+    } catch (e) {
+        processing(false);
+        toastr.error(e);
+    }
+
+}
+
+// multipeセレクトをカンマ区切りのテキストにして取得
+function getMultipleSelectedText(selectOptions){
+  console.log(selectOptions, selectOptions.length);
+  var arr = [];
+  for(var i = 0; i < selectOptions.length; i++) {
+    if(selectOptions[i].selected){
+      arr.push(selectOptions[i].value);
+    }
+  }
+  return arr.join(',');
+}
+
+// 処理中アイコン表示・非表示
+function processing(processing) {
+    if (processing) {
+        document.getElementById('processing').style.visibility = "visible";
+        document.getElementById('send_button').setAttribute("disabled", true);
+    } else {
+        document.getElementById('processing').style.visibility = "hidden";
+        document.getElementById('send_button').removeAttribute("disabled");
+    }
+}
+
+// ロード完了後の処理
+$(function() {
+    // トースト通知の位置指定
+    toastr.options.positionClass = "toast-bottom-left";
+    // バリデーションチェック有効化
+    $('#myForm').validator();
+    // 処理中アイコン非表示
+    processing(false);
+    // セレクトボックスのリストを動的に取得する
+    getSelectList();
+
+    // submit時のイベント登録
+    $('#myForm').validator().on('submit', function(e) {
+        if (document.getElementById('send_button').className.indexOf("disabled") != -1) {
+            // submit用のボタンのスタイルにdisabledが設定されていればバリデーションエラー
+        } else {
+            // バリデーションエラーでなければ送信
+            sendData();
+        }
+    })
+});
+</script>

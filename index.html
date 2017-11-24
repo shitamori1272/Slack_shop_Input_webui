@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <?!= HtmlService.createHtmlOutputFromFile('stylesheet').getContent(); ?>
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="navbar-header"><a class="navbar-brand" href="#">ISDL電子マネーチャージシステム</a></div>
+  </nav>
+
+<div class="container">
+    <form class="form-horizontal" id="myForm" onsubmit="return false;">
+        
+        <div class="form-group">
+       　　　　　 　 <label class="control-label col-xs-4">ユーザー名</label>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-9">
+                <select class="form-control" id="select_id"></select>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-4" for="input_id">チャージ金額</label>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="input_id" required>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+                <button id="send_button" type="submit" class="btn btn-primary btn-large">
+                  <i class="fa fa-send fa-lg"></i>送信
+                </button>
+            </div>
+        </div>
+    </form>
+<i id="processing" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+</div>
+<?!= HtmlService.createHtmlOutputFromFile('javascript').getContent(); ?>
+</body>
+</html>
