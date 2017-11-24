@@ -1,0 +1,2 @@
+# input_money_with_gus
+Google Spread SheetにwebUIから入金処理を行うサービスです
