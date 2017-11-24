@@ -10,8 +10,8 @@ function doGet() {
 function registerSSByFormData(data) {
 
   Logger.log("data = %s", data);
-
-  var sheet = SpreadsheetApp.openById("1Hj5LxbfqljJuLtHMR_2UBR3TQEWFtn49RZQ1NuHQAIc");
+  var sheet_id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+  var sheet = SpreadsheetApp.openById(sheet_id);
   var lastrow = sheet.getLastRow();
   var member = sheet.getSheetValues(1, 3, lastrow, 1);  //データ行のみを取得する
   var memberId = sheet.getSheetValues(1, 1, lastrow, 1);
@@ -64,7 +64,8 @@ function getSelectListFromMasterSS() {
   var selectList = [];
 
   // マスタデータシートを取得
-  var sheet = SpreadsheetApp.openById("1Hj5LxbfqljJuLtHMR_2UBR3TQEWFtn49RZQ1NuHQAIc");
+  var sheet_id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+  var sheet = SpreadsheetApp.openById(sheet_id);
   var lastrow = sheet.getLastRow();
 　　　　var member = sheet.getSheetValues(1, 3, lastrow, 1);  //データ行のみを取得する
 　　　　var money = sheet.getSheetValues(1, 2, lastrow, 1); //データ行のみを取得する
