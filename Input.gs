@@ -42,33 +42,3 @@ function getSelectListFromMasterSS() {
 
   return {data: member};
 }
-
-function setLogSheet(userName, value){
-  //spreadsheetの読み込み
-  var sheet = SpreadsheetApp.openById('1nVfofGTHTQR76cSLaYIA0p0BFjUyLgXFU22axxcBfv0');
-  var lastrow = sheet.getLastRow()
-  
-  var date = "A"+(lastrow+1);
-  var today = new Date();
-  sheet.getRange(date).setValue(today);
-  var user = "B"+(lastrow+1);
-  sheet.getRange(user).setValue(userName);
-  var valueAdd = "C"+(lastrow+1);
-  sheet.getRange(valueAdd).setValue(value);
-}
-
-function setMoneyLog(userName, value){
-  //spreadsheetの読み込み
-  var sheet = SpreadsheetApp.openById('1kvc4DRuYiWv_2xyOvFmBXnSdNmrS74HbCSWrT8OZiD4');
-  var lastrow = sheet.getLastRow();
-  var moneySum = sheet.getSheetValues(lastrow, 4, lastrow, 4);
-  
-  var date = "A"+(lastrow+1);
-  var today = new Date();
-  sheet.getRange(date).setValue(today);
-  var valueAdd = "B"+(lastrow+1);
-  sheet.getRange(valueAdd).setValue(value);
-  var valueAdd = "D"+(lastrow+1);
-  sheet.getRange(valueAdd).setValue(parseInt(moneySum)+parseInt(value));
-}
-
