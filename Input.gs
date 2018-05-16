@@ -1,3 +1,11 @@
+//Library
+//slackApp M3W5Ut3Q39AaIwLquryEPMwV62A3znfOO
+//isdlPay  MyBnOwlA5O5e2Uvdl82H6R-aMJ5Q-zlzu
+
+//Project properties
+//SLACK_ACCESS_TOKEN: Slack API access-token
+//sheet_id          : Google SpreadSheet ID for 残高リスト
+
 function doGet() {  
   return HtmlService.createTemplateFromFile('index')
     .evaluate()
@@ -9,9 +17,6 @@ function doGet() {
 function registerSSByFormData(data) {
   var userId = isdlPay.getIdByName(data[1])
   isdlPay.addMoney(userId, parseInt(data[0]));
-  
-  setLogSheet(data[1],data[0]);
-  setMoneyLog(data[1],data[0]);
   
   result = true;
   return {data: true};
