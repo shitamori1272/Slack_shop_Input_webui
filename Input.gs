@@ -15,24 +15,14 @@ function doGet() {
 }
 
 function registerSSByFormData(data) {
-  var userId = isdlPay.getIdByName(data[1])
-  isdlPay.addMoney(userId, parseInt(data[0]));
+  var slack_access_token = PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN');
+  var sheet_id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+  
+  var userId = isdlPay.getIdByName(data[1], sheet_id)
+  isdlPay.addMoney(userId, parseInt(data[0]), slack_access_token, sheet_id);
   
   result = true;
   return {data: true};
-}
-
-function postMessage(id,message){
-  var token = PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN');
-  var bot_name = "ウィーゴ";
-  var bot_icon = "http://www.hasegawa-model.co.jp/hsite/wp-content/uploads/2016/04/cw12p5.jpg";
-  var app = SlackApp.create(token);   
-  
-  return app.postMessage(id, message, {
-    username: bot_name,
-    icon_url: bot_icon,
-    link_names: 1
-  });
 }
 
 function getSelectListFromMasterSS() {
