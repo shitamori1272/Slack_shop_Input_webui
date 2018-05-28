@@ -1,5 +1,4 @@
 //Library
-//slackApp M3W5Ut3Q39AaIwLquryEPMwV62A3znfOO
 //isdlPay  MyBnOwlA5O5e2Uvdl82H6R-aMJ5Q-zlzu
 
 //Project properties
