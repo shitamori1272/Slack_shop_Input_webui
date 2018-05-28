@@ -6,7 +6,7 @@ Google Spread SheetにwebUIから入金処理を行うサービスです
 - Google AppScript
 
 ### GAS Library
-- isdlPay[(gitHub)](https://github.com/zensai3805/slack_shop_api): MyBnOwlA5O5e2Uvdl82H6R-aMJ5Q-zlzu
+- isdlPay[[gitHub link]](https://github.com/zensai3805/slack_shop_api): MyBnOwlA5O5e2Uvdl82H6R-aMJ5Q-zlzu
   - SpreadSheetで記述された残高リストを直接操作して入出金を行うライブラリです。このライブラリもリポジトリにて公開していますが、上記ライブラリIDにてそのまま利用することが可能です。
   
 ### GAS Property
